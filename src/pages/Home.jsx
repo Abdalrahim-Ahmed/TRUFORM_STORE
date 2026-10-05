@@ -215,30 +215,32 @@ export default function Home() {
 
             {/* Image Column */}
             <div className="relative order-1 lg:order-2">
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
-                <div className="relative h-[380px] w-full overflow-hidden rounded-3xl bg-slate-50 sm:h-[460px] lg:min-w-0 lg:flex-1">
+              <div className="relative">
+                <div className="rounded-t-3xl overflow-hidden bg-teal-100">
                   <img
                     src="/products/hyaluronic-acid-serum.png"
                     alt="TRUFORM Natural Skincare Products"
-                    className="h-full w-full object-contain object-center p-4"
+                    className="w-full object-cover object-center"
+                    style={{ maxHeight: '460px' }}
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-teal-900/35 via-transparent to-transparent" />
                 </div>
 
-                {/* Quick Shop Card */}
-                <div className="rounded-2xl border border-white/90 p-3 shadow-soft-lg glass sm:p-4 lg:w-56 lg:shrink-0">
+                {/* Floating Quick Shop Card */}
+                <div className="absolute bottom-5 left-4 right-4 p-4 rounded-2xl glass shadow-soft-lg border border-white/90">
                   <div className="flex items-center justify-between gap-3">
-                    <div className="flex min-w-0 items-center gap-3">
-                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-teal-700 text-white shadow-teal">
+                    <div className="flex items-center gap-3">
+                      <div className="w-11 h-11 rounded-xl bg-teal-700 text-white flex items-center justify-center flex-shrink-0 shadow-teal">
                         <ShoppingBag className="w-5 h-5" />
                       </div>
-                      <div className="min-w-0 text-right">
+                      <div className="text-right">
                         <div className="font-bold text-sm text-teal-800">عروض الشحن المجاني</div>
                         <div className="text-xs text-teal-600">على كل طلبية تبدأ من 500 ج.م</div>
                       </div>
                     </div>
                     <Link
                       to="/products"
-                      className="shrink-0 rounded-xl bg-teal-700 px-3 py-2 text-xs font-bold text-white shadow-teal transition-colors hover:bg-teal-800"
+                      className="px-3.5 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold transition-colors shadow-teal"
                     >
                       تسوق الآن
                     </Link>
