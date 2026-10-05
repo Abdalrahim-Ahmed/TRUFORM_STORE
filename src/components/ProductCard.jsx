@@ -33,18 +33,18 @@ export default function ProductCard({ product }) {
   return (
     <div className="group bg-white rounded-2xl overflow-hidden border border-teal-100 shadow-soft hover:shadow-soft-lg transition-all duration-300 flex flex-col justify-between relative card-hover">
       {/* Top badges & Wishlist */}
-      <div className="relative aspect-square overflow-hidden bg-teal-50">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-slate-50">
         <Link to={`/products/${product.id}`} className="block w-full h-full">
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            className="h-full w-full object-contain object-center p-4 transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
         </Link>
 
         {/* Category Pill */}
-        <div className="absolute top-2.5 right-2.5 flex flex-col gap-1 z-10">
+        <div className="absolute top-2.5 start-2.5 z-10 flex flex-col gap-1">
           <span className="text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full bg-white/95 text-teal-800 font-bold shadow-soft">
             {product.categoryAr}
           </span>
@@ -58,7 +58,7 @@ export default function ProductCard({ product }) {
         {/* Wishlist Heart Toggle */}
         <button
           onClick={handleToggleWishlist}
-          className={`absolute top-2.5 left-2.5 p-2 rounded-xl transition-all shadow-soft z-10 ${
+          className={`absolute top-2.5 end-2.5 z-10 rounded-xl p-2 shadow-soft transition-all ${
             isWishlisted
               ? 'bg-rose-50 text-rose-600'
               : 'bg-white/90 text-teal-400 hover:text-rose-500 hover:bg-white'
