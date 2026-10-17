@@ -220,7 +220,7 @@ export default function Home() {
                   <img
                     src="/products/hyaluronic-acid-serum.png"
                     alt="TRUFORM Natural Skincare Products"
-                    className="w-full object-cover object-center"
+                    className="w-full h-full object-contain object-center"
                     style={{ maxHeight: '460px' }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-teal-900/35 via-transparent to-transparent" />
@@ -452,7 +452,7 @@ export default function Home() {
                           <img
                             src={matched.image}
                             alt={matched.name}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain object-center"
                           />
                         </div>
                       );

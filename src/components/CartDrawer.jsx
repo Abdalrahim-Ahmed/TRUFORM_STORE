@@ -155,7 +155,7 @@ export default function CartDrawer() {
                     <img
                       src={item.product.image}
                       alt={item.product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      className="w-full h-full object-contain object-center"
                     />
                   </Link>
 
@@ -178,7 +178,7 @@ export default function CartDrawer() {
                       {/* Price */}
                       <div>
                         <span className="font-extrabold text-sm sm:text-base text-teal-800">
-                          {item.product.price * item.quantity}
+                          {(item.unitPrice ?? item.product.price) * item.quantity}
                         </span>
                         <span className="text-[10px] text-teal-500 mr-1">ج.م</span>
                       </div>

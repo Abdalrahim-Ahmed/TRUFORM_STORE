@@ -18,6 +18,19 @@ const STORAGE_KEYS = {
   DISCOUNT: 'ns_discount_v1',
 };
 
+const isValidPrice = (price) => typeof price === 'number' && Number.isFinite(price) && price >= 0;
+
+const getMatchingSize = (product, selectedSize) => {
+  const sizes = Array.isArray(product.sizes) ? product.sizes : [];
+  const matchingSize = sizes.find((size) => size.label === selectedSize);
+
+  if (matchingSize) return matchingSize;
+  if (selectedSize === 'الحجم القياسي' || selectedSize === '150 مل (الحجم القياسي)') {
+    return sizes.find((size) => isValidPrice(size.price));
+  }
+  return undefined;
+};
+
 // Default starter routine if none exists
 const defaultStarterRoutine = {
   morning: [
@@ -380,15 +393,34 @@ export function AppProvider({ children }) {
   // ==========================================
 
   const addToCart = (product, quantity = 1, selectedSize = 'الحجم القياسي', openDrawer = true) => {
+    const hasSizeOptions = Array.isArray(product.sizes) && product.sizes.length > 0;
+    const matchingSize = hasSizeOptions ? getMatchingSize(product, selectedSize) : undefined;
+    const unitPrice = hasSizeOptions ? matchingSize?.price : product.price;
+
+    if (!isValidPrice(unitPrice)) {
+      showToast('هذا الحجم غير متاح للشراء حالياً.', 'warning');
+      return;
+    }
+
+    const cartSelectedSize = matchingSize?.label || selectedSize;
+
     setCart((prev) => {
       const existingIndex = prev.findIndex(
-        (item) => item.product.id === product.id && item.selectedSize === selectedSize
+        (item) => {
+          if (item.product.id !== product.id) return false;
+          const existingSize = hasSizeOptions
+            ? getMatchingSize(product, item.selectedSize)?.label || item.selectedSize
+            : item.selectedSize;
+          return existingSize === cartSelectedSize;
+        }
       );
 
       if (existingIndex > -1) {
         const updated = [...prev];
         updated[existingIndex] = {
           ...updated[existingIndex],
+          unitPrice,
+          selectedSize: cartSelectedSize,
           quantity: updated[existingIndex].quantity + quantity
         };
         return updated;
@@ -400,7 +432,8 @@ export function AppProvider({ children }) {
           id: `cart-${product.id}-${Date.now()}`,
           product,
           quantity,
-          selectedSize
+          selectedSize: cartSelectedSize,
+          unitPrice
         }
       ];
     });
@@ -445,7 +478,10 @@ export function AppProvider({ children }) {
   };
 
   // Cart calculations
-  const cartSubtotal = cart.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+  const cartSubtotal = cart.reduce(
+    (total, item) => total + ((item.unitPrice ?? item.product.price) * item.quantity),
+    0
+  );
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
 
   // Discount logic

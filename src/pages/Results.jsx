@@ -265,7 +265,7 @@ export default function Results() {
                       <img
                         src={step.product.image}
                         alt={step.product.name}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-contain object-center transition-transform duration-300"
                       />
                     </Link>
 
@@ -291,7 +291,9 @@ export default function Results() {
                   <div className="pt-3 mt-3 border-t border-teal-50 flex items-center justify-between gap-2">
                     <div>
                       <span className="text-base font-extrabold text-teal-800">
-                        {step.product.price}
+                        {step.product.price ?? step.product.sizes?.find(
+                          (size) => typeof size.price === 'number' && Number.isFinite(size.price)
+                        )?.price}
                       </span>
                       <span className="text-xs text-teal-400 mr-1">ج.م</span>
                     </div>
@@ -353,7 +355,7 @@ export default function Results() {
                       <img
                         src={step.product.image}
                         alt={step.product.name}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-contain object-center transition-transform duration-300"
                       />
                     </Link>
 
@@ -379,7 +381,9 @@ export default function Results() {
                   <div className="pt-3 mt-3 border-t border-teal-50 flex items-center justify-between gap-2">
                     <div>
                       <span className="text-base font-extrabold text-teal-800">
-                        {step.product.price}
+                        {step.product.price ?? step.product.sizes?.find(
+                          (size) => typeof size.price === 'number' && Number.isFinite(size.price)
+                        )?.price}
                       </span>
                       <span className="text-xs text-teal-400 mr-1">ج.م</span>
                     </div>

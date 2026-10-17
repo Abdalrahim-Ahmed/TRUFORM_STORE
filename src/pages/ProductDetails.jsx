@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Star,
@@ -25,6 +25,11 @@ import VideoModal from '../components/VideoModal';
 export default function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const product = products.find((p) => p.id === id) || products[0];
+  const firstPurchasableSize = product.sizes?.find(
+    (size) => typeof size.price === 'number' && Number.isFinite(size.price) && size.price >= 0
+  );
+  const defaultSelectedSize = firstPurchasableSize?.label || '150 مل (الحجم القياسي)';
   const {
     addProductToRoutine,
     routine,
@@ -41,7 +46,7 @@ export default function ProductDetails() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState('150 مل (الحجم القياسي)');
+  const [selectedSize, setSelectedSize] = useState(defaultSelectedSize);
 
   // New Review Form State
   const [newReviewAuthor, setNewReviewAuthor] = useState('');
@@ -52,8 +57,17 @@ export default function ProductDetails() {
   const [newReviewTitle, setNewReviewTitle] = useState('');
   const [newReviewContent, setNewReviewContent] = useState('');
 
-  // Find product by id or fallback to first
-  const product = products.find((p) => p.id === id) || products[0];
+  useEffect(() => {
+    setSelectedSize(defaultSelectedSize);
+  }, [product.id, defaultSelectedSize]);
+
+  const hasSizeOptions = Array.isArray(product.sizes) && product.sizes.length > 0;
+  const selectedSizeOption = hasSizeOptions
+    ? product.sizes.find((size) => size.label === selectedSize)
+    : undefined;
+  const selectedUnitPrice = hasSizeOptions ? selectedSizeOption?.price : product.price;
+  const isSelectedSizePurchasable =
+    typeof selectedUnitPrice === 'number' && Number.isFinite(selectedUnitPrice) && selectedUnitPrice >= 0;
 
   const isAlreadyInRoutine =
     routine?.morning?.some((i) => i.productId === product.id) ||
@@ -74,6 +88,7 @@ export default function ProductDetails() {
   };
 
   const handleBuyNow = () => {
+    if (!isSelectedSizePurchasable) return;
     addToCart(product, quantity, selectedSize, false);
     navigate('/checkout');
   };
@@ -117,10 +132,12 @@ export default function ProductDetails() {
     setShowReviewForm(false);
   };
 
-  const sizeOptions = [
-    '150 مل (الحجم القياسي)',
-    '250 مل (حجم توفيري)'
-  ];
+  const sizeOptions = hasSizeOptions
+    ? product.sizes
+    : [
+        { label: '150 مل (الحجم القياسي)' },
+        { label: '250 مل (حجم توفيري)' }
+      ];
 
   return (
     <div className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
@@ -145,7 +162,7 @@ export default function ProductDetails() {
             <img
               src={product.image}
               alt={product.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain object-center"
             />
             {/* Category Pill */}
             <span className="absolute top-4 right-4 text-xs px-3.5 py-1 rounded-full bg-white/95 text-teal-800 font-bold shadow-soft">
@@ -230,7 +247,7 @@ export default function ProductDetails() {
           <div className="py-3 border-y border-teal-100 flex items-baseline justify-between gap-2 flex-wrap">
             <div className="flex items-baseline gap-2">
               <span className="text-3xl sm:text-4xl font-extrabold text-teal-800">
-                {product.price}
+                {isSelectedSizePurchasable ? selectedUnitPrice : 'غير متاح'}
               </span>
               <span className="text-sm font-bold text-teal-500">جنيه مصري (ج.م)</span>
             </div>
@@ -249,20 +266,26 @@ export default function ProductDetails() {
           <div className="space-y-2">
             <label className="block text-xs font-bold text-teal-800">اختر الحجم:</label>
             <div className="grid grid-cols-2 gap-2.5">
-              {sizeOptions.map((opt) => (
+              {sizeOptions.map((opt) => {
+                const optionPrice = hasSizeOptions ? opt.price : product.price;
+                const isPurchasable =
+                  typeof optionPrice === 'number' && Number.isFinite(optionPrice) && optionPrice >= 0;
+                return (
                 <button
-                  key={opt}
+                  key={opt.label}
                   type="button"
-                  onClick={() => setSelectedSize(opt)}
+                  onClick={() => setSelectedSize(opt.label)}
+                  disabled={!isPurchasable}
                   className={`p-3 rounded-xl text-xs font-bold border transition-all text-center ${
-                    selectedSize === opt
+                    selectedSize === opt.label
                       ? 'border-teal-700 bg-teal-50 text-teal-800 shadow-2xs'
                       : 'border-teal-100 text-teal-600 hover:bg-teal-50/40'
-                  }`}
+                  } ${!isPurchasable ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                  {opt}
+                  {opt.label}
                 </button>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -293,10 +316,11 @@ export default function ProductDetails() {
               {/* Primary: Add to Cart */}
               <button
                 onClick={handleAddToCart}
+                disabled={!isSelectedSizePurchasable}
                 className="flex-1 py-3.5 px-6 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-extrabold text-sm shadow-teal transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
               >
                 <ShoppingBag className="w-4 h-4" />
-                <span>أضف إلى السلة ({product.price * quantity} ج.م)</span>
+                <span>أضف إلى السلة ({isSelectedSizePurchasable ? selectedUnitPrice * quantity : 'غير متاح'} ج.م)</span>
               </button>
             </div>
 
@@ -304,7 +328,8 @@ export default function ProductDetails() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <button
                 onClick={handleBuyNow}
-                className="py-3 px-4 rounded-xl bg-teal-800 hover:bg-teal-900 text-white font-bold text-xs sm:text-sm transition-colors flex items-center justify-center gap-1.5 shadow-soft"
+                disabled={!isSelectedSizePurchasable}
+                className="py-3 px-4 rounded-xl bg-teal-800 hover:bg-teal-900 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-xs sm:text-sm transition-colors flex items-center justify-center gap-1.5 shadow-soft"
               >
                 <span>اشتري الآن (دفع عند الاستلام)</span>
                 <ArrowLeft className="w-4 h-4" />

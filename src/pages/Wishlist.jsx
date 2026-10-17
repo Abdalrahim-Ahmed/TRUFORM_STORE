@@ -55,7 +55,7 @@ export default function Wishlist() {
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-contain object-center transition-transform duration-500"
                   />
                 </Link>
                 <button
@@ -97,7 +97,9 @@ export default function Wishlist() {
                 <div className="pt-3 border-t border-teal-50 flex items-center justify-between gap-2">
                   <div>
                     <span className="text-base sm:text-lg font-extrabold text-teal-800">
-                      {product.price}
+                      {product.price ?? product.sizes?.find(
+                        (size) => typeof size.price === 'number' && Number.isFinite(size.price)
+                      )?.price}
                     </span>
                     <span className="text-xs text-teal-400 mr-1">ج.م</span>
                   </div>

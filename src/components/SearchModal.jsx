@@ -141,7 +141,7 @@ export default function SearchModal() {
                     <img
                       src={p.image}
                       alt={p.name}
-                      className="w-14 h-14 object-cover rounded-xl border border-teal-100"
+                      className="w-14 h-14 object-contain object-center rounded-xl border border-teal-100 bg-teal-50"
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">

@@ -4,6 +4,11 @@ export const products = [
     name: "غسول الشاي الأخضر والزنك المنقي",
     nameEn: "Purifying Green Tea & Zinc Gentle Gel Cleanser",
     price: 280,
+     sizes: [
+    { label: "150 مل", price: 280 },
+    { label: "250 مل", price: 520 }
+     ],
+
     rating: 4.8,
     reviewCount: 142,
     image: "/products/gentle-hydrating-cleanser.png",
@@ -60,6 +65,10 @@ export const products = [
     name: "غسول السيراميد والشوفان الغني بالمرطبات",
     nameEn: "Gentle Ceramide & Oat Nourishing Cream Cleanser",
     price: 295,
+    sizes: [
+    { label: "150 مل", price: 295 },
+    { label: "250 مل", price: 540 }
+     ],
     rating: 4.9,
     reviewCount: 98,
     image: "/products/gentle-hydrating-cleanser.png",
@@ -116,6 +125,10 @@ export const products = [
     name: "سيروم النياسيناميد 10% والزنك المركز",
     nameEn: "Niacinamide 10% + Zinc PCA 1% Clarifying Serum",
     price: 360,
+    sizes: [
+    { label: "150 مل", price: 360 },
+    { label: "250 مل", price: 620 }
+     ],
     rating: 4.8,
     reviewCount: 215,
     image: "/products/whatsapp-2026-10-03-141407.jpeg",
@@ -172,6 +185,10 @@ export const products = [
     name: "سيروم الهيالورونيك المركّب 2% وفيتامين B5",
     nameEn: "Multi-Molecular Hyaluronic Acid 2% + B5 Hydrator",
     price: 340,
+    sizes: [
+    { label: "150 مل", price: 340 },
+    { label: "250 مل", price: 600 }
+     ],
     rating: 4.9,
     reviewCount: 184,
     image: "/products/hyaluronic-acid-serum.png",
@@ -228,6 +245,10 @@ export const products = [
     name: "سيروم فيتامين C المستقر 12% وخلاصة عرق السوس",
     nameEn: "Radiance Boost Vitamin C 12% + Licorice Root Serum",
     price: 395,
+    sizes: [
+    { label: "150 مل", price: 395 },
+    { label: "250 مل", price: 720 }
+     ],
     rating: 4.7,
     reviewCount: 167,
     image: "/products/revitalizing-hair-body-oil.png",
@@ -284,6 +305,10 @@ export const products = [
     name: "جل مرطب السيكا والألوفيرا المائي فائق الخفة",
     nameEn: "Calming Cica & Organic Aloe Soothing Water Gel",
     price: 310,
+    sizes: [
+    { label: "150 مل", price: 310 },
+    { label: "250 مل", price: 560 }
+     ],
     rating: 4.9,
     reviewCount: 178,
     image: "/products/hydration-conditioner-tube.png",
@@ -340,6 +365,10 @@ export const products = [
     name: "كريم ترميم حاجز البشرة بالسيراميد وزبدة الشيا",
     nameEn: "Barrier Restoring Deep Moisturizing Ceramide Cream",
     price: 350,
+    sizes: [
+    { label: "150 مل", price: 350 },
+    { label: "250 مل", price: 620 }
+     ],
     rating: 4.8,
     reviewCount: 130,
     image: "/products/ultra-rich-face-cream-jar.png",
@@ -396,6 +425,10 @@ export const products = [
     name: "سائل واقي الشمس المعدني غير المرئي SPF 50+",
     nameEn: "Invisible Mineral Fluid Sunscreen SPF 50+ PA++++",
     price: 380,
+    sizes: [
+    { label: "150 مل", price: 380 },
+    { label: "250 مل", price: 700 }
+     ],
     rating: 4.9,
     reviewCount: 245,
     image: "/products/whatsapp-2026-10-03-141407-1.jpeg",
@@ -451,7 +484,10 @@ export const products = [
     id: "prod-9",
     name: "مقشر حمض الساليسيليك 2% BHA المنقي اللطيف",
     nameEn: "Gentle 2% BHA Liquid Exfoliant & Pore Refiner",
-    price: 360,
+    sizes: [
+      { label: "150 مل", price: 360 },
+      { label: "250 مل", price: 620 }
+    ],
     rating: 4.8,
     reviewCount: 154,
     image: "/products/whatsapp-2026-10-03-141406.jpeg",
@@ -501,7 +537,10 @@ export const products = [
     id: "prod-10",
     name: "علاج البقع الفوري بزيت شجرة الشاي والزنك",
     nameEn: "Targeted Tea Tree & Zinc Emergency Blemish Spot Gel",
-    price: 240,
+    sizes: [
+      { label: "150 مل", price: 240 },
+      { label: "250 مل", price: 420 }
+    ],
     rating: 4.8,
     reviewCount: 116,
     image: "/products/whatsapp-2026-10-03-141406-1.jpeg",

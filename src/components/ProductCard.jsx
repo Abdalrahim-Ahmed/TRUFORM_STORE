@@ -11,6 +11,9 @@ export default function ProductCard({ product }) {
     routine?.night?.some((i) => i.productId === product.id);
 
   const isWishlisted = isInWishlist(product.id);
+  const displayPrice = product.price ?? product.sizes?.find(
+    (size) => typeof size.price === 'number' && Number.isFinite(size.price)
+  )?.price;
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -38,7 +41,7 @@ export default function ProductCard({ product }) {
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-contain object-center transition-transform duration-500"
             loading="lazy"
           />
         </Link>
@@ -126,7 +129,7 @@ export default function ProductCard({ product }) {
             <div className="text-right">
               <span className="text-[10px] text-teal-400 block leading-none">السعر</span>
               <span className="text-base sm:text-lg font-extrabold text-teal-800">
-                {product.price}{' '}
+                {displayPrice}{' '}
                 <span className="text-xs font-semibold text-teal-500">ج.م</span>
               </span>
             </div>

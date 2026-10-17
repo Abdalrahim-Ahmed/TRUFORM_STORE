@@ -221,14 +221,16 @@ export default function Checkout() {
                   <img
                     src={item.product.image}
                     alt={item.product.name}
-                    className="w-12 h-12 rounded-lg object-cover bg-teal-50 border border-teal-100 flex-shrink-0"
+                    className="w-12 h-12 rounded-lg object-contain bg-teal-50 border border-teal-100 flex-shrink-0"
                   />
                   <div className="flex-1 min-w-0">
                     <h4 className="font-bold text-teal-800 truncate">{item.product.name}</h4>
-                    <span className="text-teal-500 text-[11px]">الكمية: {item.quantity}</span>
+                    <span className="text-teal-500 text-[11px]">
+                      {item.selectedSize ? `${item.selectedSize} • ` : ''}الكمية: {item.quantity}
+                    </span>
                   </div>
                   <span className="font-extrabold text-teal-800">
-                    {item.product.price * item.quantity} ج.م
+                    {(item.unitPrice ?? item.product.price) * item.quantity} ج.م
                   </span>
                 </div>
               ))}
@@ -603,7 +605,7 @@ export default function Checkout() {
                     <img
                       src={item.product.image}
                       alt={item.product.name}
-                      className="w-14 h-14 rounded-xl object-cover bg-teal-50 border border-teal-100 flex-shrink-0"
+                      className="w-14 h-14 rounded-xl object-contain bg-teal-50 border border-teal-100 flex-shrink-0"
                     />
                     <div className="flex-1 min-w-0 text-right">
                       <h4 className="font-bold text-teal-800 truncate">{item.product.name}</h4>
@@ -612,7 +614,7 @@ export default function Checkout() {
                       </p>
                     </div>
                     <div className="text-left font-extrabold text-teal-800">
-                      {item.product.price * item.quantity} ج.م
+                      {(item.unitPrice ?? item.product.price) * item.quantity} ج.م
                     </div>
                   </div>
                 ))}
